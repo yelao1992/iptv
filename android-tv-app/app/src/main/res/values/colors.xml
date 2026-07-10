@@ -1,0 +1,10 @@
+<resources>
+    <color name="black">#000000</color>
+    <color name="surface">#111318</color>
+    <color name="surface_alt">#1B1E25</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B5BAC6</color>
+    <color name="accent">#00D1FF</color>
+    <color name="accent_dark">#006B80</color>
+    <color name="danger">#FF4D67</color>
+</resources>
