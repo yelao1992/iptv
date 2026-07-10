@@ -30,9 +30,7 @@ public class PlayerActivity extends AppCompatActivity {
     static final String EXTRA_CHANNEL_JSON = "channel_json";
 
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final Runnable hideOverlayRunnable = () -> {
-        if (playerOverlay != null) playerOverlay.animate().alpha(0f).setDuration(300).start();
-    };
+    private final Runnable hideOverlayRunnable = this::hideOverlayNow;
 
     private PlayerView playerView;
     private View playerOverlay;
@@ -150,6 +148,12 @@ public class PlayerActivity extends AppCompatActivity {
                 .setPositiveButton("Volver", (dialog, which) -> finish())
                 .setOnCancelListener(dialog -> finish())
                 .show();
+    }
+
+    private void hideOverlayNow() {
+        if (playerOverlay != null) {
+            playerOverlay.animate().alpha(0f).setDuration(300).start();
+        }
     }
 
     private void showOverlay() {
