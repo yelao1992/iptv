@@ -42,8 +42,10 @@ jobs:
       - name: Download stable public development key
         shell: bash
         run: |
-          curl -fsSL 'https://android.googlesource.com/platform/build/+/refs/heads/main/target/product/security/testkey.pk8?format=TEXT' | base64 --decode > testkey.pk8
-          curl -fsSL 'https://android.googlesource.com/platform/build/+/refs/heads/main/target/product/security/testkey.x509.pem?format=TEXT' | base64 --decode > testkey.x509.pem
+          curl -fsSL 'https://android.googlesource.com/platform/build/%2B/refs/heads/main/target/product/security/testkey.pk8?format=TEXT' | tr -d '\n' | base64 --decode > testkey.pk8
+          curl -fsSL 'https://android.googlesource.com/platform/build/%2B/refs/heads/main/target/product/security/testkey.x509.pem?format=TEXT' | tr -d '\n' | base64 --decode > testkey.x509.pem
+          test -s testkey.pk8
+          test -s testkey.x509.pem
 
       - name: Build and sign universal test APK
         id: android_build
@@ -65,7 +67,7 @@ jobs:
         with:
           name: stream-tv-build-log
           path: build.log
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 7
 
       - name: Upload universal test APK
@@ -81,5 +83,5 @@ jobs:
         if: steps.android_build.outcome == 'failure'
         shell: bash
         run: |
-          tail -n 180 build.log
+          test -f build.log && tail -n 180 build.log || true
           exit 1
